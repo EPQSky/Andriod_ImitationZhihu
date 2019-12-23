@@ -6,6 +6,7 @@
 
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
@@ -15,6 +16,7 @@
             android:textSize="20sp"/>
 
     <EditText
+        android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5sp"
@@ -34,6 +36,7 @@
         android:text="·确保问题没有被提问过"
         android:textSize="18sp" />
     <EditText
+        android:id="@+id/et_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="5sp"

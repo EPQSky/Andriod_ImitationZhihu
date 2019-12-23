@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60sp"
+    android:layout_marginBottom="2sp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="2sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="我是问题标题"
+        android:textSize="24sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:layout_marginStart="10sp"
+        android:layout_below="@+id/item_title"
+        android:layout_alignParentLeft="true"
+        android:text="我是发布人"
+        android:textSize="13sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:layout_marginEnd="10sp"
+        android:layout_below="@+id/item_title"
+        android:layout_alignParentRight="true"
+        android:text="我是发布时间"
+        android:textSize="13sp"
+        android:textColor="@color/black"/>
+
+</RelativeLayout>

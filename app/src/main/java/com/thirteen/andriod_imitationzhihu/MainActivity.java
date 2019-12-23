@@ -43,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(bottomFragmentPagerAdapter);
 
+        String name = getIntent().getStringExtra("name");
+        if (name != null){
+            Bundle bundle = new Bundle();
+            bundle.putString("name", name);
+            fragments.get(2).setArguments(bundle);
+            fragments.get(4).setArguments(bundle);
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

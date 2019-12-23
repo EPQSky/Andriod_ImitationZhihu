@@ -1,11 +1,11 @@
 package com.thirteen.andriod_imitationzhihu;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -108,7 +108,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         db.update("user", values, "name = ?",
                                 new String[]{name});
                         Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.putExtra("name", name);
+                        startActivity(intent);
                     }else {
                         Toast.makeText(this, "账号密码错误或未注册", Toast.LENGTH_SHORT).show();
                     }

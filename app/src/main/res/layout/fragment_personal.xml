@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.button.MaterialButton
@@ -8,7 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20sp"
-        android:text="请登陆或注册"
+        android:text="请登陆/注册"
+        android:textSize="20sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_exit"
+        android:layout_marginTop="256sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20sp"
+        android:text="退出"
         android:textSize="20sp"
-        android:background="@color/white" />
+        android:visibility="gone"
+        app:backgroundTint="@color/black"/>
+
 </LinearLayout>
