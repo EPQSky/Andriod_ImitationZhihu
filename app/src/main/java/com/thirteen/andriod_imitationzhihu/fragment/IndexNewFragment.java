@@ -1,5 +1,6 @@
 package com.thirteen.andriod_imitationzhihu.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.thirteen.andriod_imitationzhihu.MyHelper;
+import com.thirteen.andriod_imitationzhihu.QuestionActivity;
 import com.thirteen.andriod_imitationzhihu.R;
+import com.thirteen.andriod_imitationzhihu.RecyclerViewClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,8 +31,8 @@ public class IndexNewFragment extends Fragment {
     MyHelper myHelper;
     private RecyclerView recyclerView;
     private RefreshLayout refreshLayout;
+    private List<String> ids;
     private List<String> titles;
-    private List<String> creators;
     private List<String> gmtCreates;
     @Nullable
     @Override
@@ -41,7 +45,8 @@ public class IndexNewFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.question_new);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         initdata();
-        recyclerView.setAdapter(new MyAdapter(titles, creators, gmtCreates));
+        MyAdapter myAdapter = new MyAdapter(ids, titles, gmtCreates);
+        recyclerView.setAdapter(myAdapter);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -49,38 +54,55 @@ public class IndexNewFragment extends Fragment {
                 refreshLayout.finishRefresh(1000);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 initdata();
-                recyclerView.setAdapter(new MyAdapter(titles, creators, gmtCreates));
+                MyAdapter myAdapter = new MyAdapter(ids, titles, gmtCreates);
+                recyclerView.setAdapter(myAdapter);
             }
         });
+
+        recyclerView.addOnItemTouchListener(new RecyclerViewClickListener(getActivity(), new RecyclerViewClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getContext(), QuestionActivity.class);
+                intent.putExtra("id", ids.get(position));
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Intent intent = new Intent(getContext(), QuestionActivity.class);
+                intent.putExtra("id", ids.get(position));
+                startActivity(intent);
+            }
+        }));
 
         return view;
     }
 
     private void initdata(){
+        ids = new ArrayList<String>();
         titles = new ArrayList<String>();
-        creators = new ArrayList<String>();
         gmtCreates = new ArrayList<String>();
 
         SQLiteDatabase db;
         db = myHelper.getReadableDatabase();
         Cursor cursor = db.query("question", null, null, null, null, null, "gmt_create desc");
         while (cursor.moveToNext()){
+            ids.add(cursor.getString(0));
             titles.add(cursor.getString(1));
-            creators.add("提问人：" + cursor.getString(3));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = sdf.format(Long.valueOf(cursor.getLong(4)));
-            gmtCreates.add("发布时间：" + time);
+            gmtCreates.add(time);
         }
 
     }
 
     class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private List<String> ids;
         private List<String> titles;
-        private List<String> creators;
         private List<String> gmtCreates;
-        public MyAdapter(List<String> titles, List<String> creators, List<String> gmtCreates){
+        public MyAdapter(List<String> ids, List<String> titles, List<String> gmtCreates){
+            this.ids = ids;
             this.titles = titles;
-            this.creators = creators;
             this.gmtCreates = gmtCreates;
         }
 
@@ -95,27 +117,30 @@ public class IndexNewFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            ((MyViewHolder) holder).tvId.setText(ids.get(position));
             ((MyViewHolder) holder).tvTitle.setText(titles.get(position));
-            ((MyViewHolder) holder).tvName.setText(creators.get(position));
             ((MyViewHolder) holder).tvTime.setText(gmtCreates.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return titles.size();
+            return ids.size();
         }
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView tvId;
         TextView tvTitle;
         TextView tvTime;
-        TextView tvName;
 
         public MyViewHolder(View itemView){
             super(itemView);
+            tvId = (TextView) itemView.findViewById(R.id.item_id);
             tvTitle = (TextView) itemView.findViewById(R.id.item_title);
-            tvName = (TextView) itemView.findViewById(R.id.item_name);
             tvTime = (TextView) itemView.findViewById(R.id.item_time);
         }
+
     }
+
 }
