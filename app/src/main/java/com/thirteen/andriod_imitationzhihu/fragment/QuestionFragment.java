@@ -70,6 +70,8 @@ public class QuestionFragment extends Fragment {
                             values.put("gmt_create", System.currentTimeMillis());
                             db.insert("question", null, values);
                             Toast.makeText(getActivity(), "发布问题成功", Toast.LENGTH_SHORT).show();
+                            etTitle.setText(null);
+                            etDescription.setText(null);
                         }
                     }else {
                         Toast.makeText(getActivity(), "用户未登录", Toast.LENGTH_SHORT).show();
